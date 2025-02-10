@@ -1,0 +1,21 @@
+default: &default
+  adapter: mysql2
+  encoding: utf8
+  pool: 5
+  username: root
+  password: "pedro2804"
+  host: localhost
+
+development:
+  <<: *default
+  database: metallurgy_api_development
+
+test:
+  <<: *default
+  database: metallurgy_api_test
+
+production:
+  <<: *default
+  database: metallurgy_api_production
+  username: meu_usuario
+  password: <%= ENV['DATABASE_PASSWORD'] %>
