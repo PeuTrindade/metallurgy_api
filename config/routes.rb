@@ -4,4 +4,8 @@ Rails.application.routes.draw do
 
   # Rotas protegidas
   put '/profile', to: 'users#update'
+  post '/step', to: 'steps#create'
+  put '/step/:id', to: 'steps#update'
+  delete '/step/:id', to: 'steps#destroy'
+  get '/steps', to: 'steps#index'
 end
