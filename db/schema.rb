@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_11_001551) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_11_201105) do
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "fullName", null: false
     t.bigint "cnpj", null: false
@@ -19,10 +19,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_11_001551) do
     t.integer "cityId"
     t.integer "stateId"
     t.string "address"
-    t.string "password", null: false
     t.string "zipcode"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "password_digest"
   end
 
 end

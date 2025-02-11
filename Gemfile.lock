@@ -79,6 +79,7 @@ GEM
       securerandom (>= 0.3)
       tzinfo (~> 2.0)
     base64 (0.2.0)
+    bcrypt (3.1.20)
     benchmark (0.4.0)
     bigdecimal (3.1.9)
     bootsnap (1.18.4)
@@ -102,6 +103,8 @@ GEM
       pp (>= 0.6.0)
       rdoc (>= 4.0.0)
       reline (>= 0.4.2)
+    jwt (2.10.1)
+      base64
     logger (1.6.5)
     loofah (2.24.0)
       crass (~> 1.0.2)
@@ -218,8 +221,10 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  bcrypt (~> 3.1.7)
   bootsnap
   debug
+  jwt
   mysql2 (~> 0.5)
   puma (>= 5.0)
   rails (~> 7.1.3)
