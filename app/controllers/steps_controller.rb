@@ -27,6 +27,16 @@ class StepsController < ApplicationController
     end
   end
 
+  def by_flow
+    steps = Step.where(flow_id: params[:flow_id])
+
+    if steps.any?
+      render json: {steps: steps}, status: :ok
+    else
+      render json: { message: "No steps found for this flow_id" }, status: :not_found
+    end
+  end
+
   def destroy
     if @step.user_id == current_user.id
       if @step.destroy()
@@ -45,6 +55,6 @@ class StepsController < ApplicationController
     end
 
     def step_params
-      params.require(:step).permit(:name, :startDate, :finishDate, :image, :description)
+      params.require(:step).permit(:name, :startDate, :finishDate, :image, :description, :flow_id)
     end
 end

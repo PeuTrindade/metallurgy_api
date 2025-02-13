@@ -10,7 +10,29 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_11_213125) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_13_224334) do
+  create_table "flows", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.string "description"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "fk_rails_42038c5d78"
+  end
+
+  create_table "parts", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name"
+    t.string "tag"
+    t.string "hiringCompany"
+    t.string "image"
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "flow_id", null: false
+    t.index ["flow_id"], name: "fk_rails_4e346bfec1"
+    t.index ["user_id"], name: "fk_rails_f85f1811f0"
+  end
+
   create_table "steps", charset: "utf8mb3", force: :cascade do |t|
     t.string "name", null: false
     t.datetime "startDate"
@@ -20,6 +42,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_11_213125) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
+    t.bigint "flow_id", null: false
+    t.index ["flow_id"], name: "fk_rails_dd10677e21"
     t.index ["user_id"], name: "index_steps_on_user_id"
   end
 
@@ -37,5 +61,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_11_213125) do
     t.string "password_digest"
   end
 
+  add_foreign_key "flows", "users"
+  add_foreign_key "parts", "flows"
+  add_foreign_key "parts", "users"
+  add_foreign_key "steps", "flows"
   add_foreign_key "steps", "users"
 end
