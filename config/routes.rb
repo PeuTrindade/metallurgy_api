@@ -29,4 +29,7 @@ Rails.application.routes.draw do
   put '/flow/:id', to: 'flows#update'
   delete '/flow/:id', to: 'flows#destroy'
   get '/flow/:id', to: 'flows#show'
+
+  # Relatório
+  post '/report', to: 'reports#create'
 end
