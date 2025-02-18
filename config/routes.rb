@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   delete '/step/:id', to: 'steps#destroy'
   get '/steps', to: 'steps#index'
   get '/steps/flow/:flow_id', to: 'steps#by_flow'
+  get '/step/:id', to: 'steps#show'
 
   # Peça
   post '/part', to: 'parts#create'
@@ -20,10 +21,12 @@ Rails.application.routes.draw do
   put '/part/:id', to: 'parts#update'
   delete '/part/:id', to: 'parts#destroy'
   get '/parts/flow/:flow_id', to: 'parts#by_flow'
+  get '/part/:id', to: 'parts#show'
 
   # Fluxo
   post '/flow', to: 'flows#create'
   get '/flows', to: 'flows#index'
   put '/flow/:id', to: 'flows#update'
   delete '/flow/:id', to: 'flows#destroy'
+  get '/flow/:id', to: 'flows#show'
 end

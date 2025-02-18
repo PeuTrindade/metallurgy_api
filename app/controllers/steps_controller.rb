@@ -7,6 +7,16 @@ class StepsController < ApplicationController
     render json: { steps: steps }, status: :ok
   end
 
+  def show
+    step = current_user.steps.find_by(id: params[:id])
+
+    if step
+      render json: step, status: :ok
+    else
+      render json: { error: "Step not found or does not belong to the user" }, status: :not_found
+    end
+  end
+
   def create
     @step = current_user.steps.new(step_params)
 

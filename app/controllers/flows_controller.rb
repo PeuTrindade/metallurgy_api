@@ -7,6 +7,16 @@ class FlowsController < ApplicationController
     render json: { flows: flows }, status: :ok
   end
 
+  def show
+    flow = current_user.flows.find_by(id: params[:id])
+
+    if flow
+      render json: flow, status: :ok
+    else
+      render json: { error: "Flow not found or does not belong to the user" }, status: :not_found
+    end
+  end
+
   def create
     @flow = current_user.flows.new(flow_params)
 

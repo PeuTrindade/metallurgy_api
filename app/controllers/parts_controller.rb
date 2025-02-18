@@ -7,6 +7,16 @@ class PartsController < ApplicationController
     render json: { parts: parts }, status: :ok
   end
 
+  def show
+    part = current_user.parts.find_by(id: params[:id])
+
+    if part
+      render json: part, status: :ok
+    else
+      render json: { error: "Part not found or does not belong to the user" }, status: :not_found
+    end
+  end
+
   def create
     @part = current_user.parts.new(part_params)
 
