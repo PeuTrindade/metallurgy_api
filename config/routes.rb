@@ -14,6 +14,7 @@ Rails.application.routes.draw do
   get '/steps', to: 'steps#index'
   get '/steps/flow/:flow_id', to: 'steps#by_flow'
   get '/step/:id', to: 'steps#show'
+  get '/steps/part/:part_id', to: 'steps#by_part'
 
   # Peça
   post '/part', to: 'parts#create'
@@ -31,5 +32,5 @@ Rails.application.routes.draw do
   get '/flow/:id', to: 'flows#show'
 
   # Relatório
-  post '/report', to: 'reports#create'
+  post '/report/:id', to: 'reports#create'
 end
