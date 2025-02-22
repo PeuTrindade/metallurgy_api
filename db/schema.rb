@@ -10,10 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_22_213244) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_22_231611) do
   create_table "flows", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
-    t.string "description"
+    t.text "description"
     t.bigint "user_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -38,7 +38,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_22_213244) do
     t.datetime "startDate"
     t.datetime "finishDate"
     t.string "image"
-    t.string "description"
+    t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "user_id", null: false
