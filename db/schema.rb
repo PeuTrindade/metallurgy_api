@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_22_231611) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_23_134704) do
   create_table "flows", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -29,6 +29,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_22_231611) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.bigint "flow_id", null: false
+    t.text "description"
     t.index ["flow_id"], name: "fk_rails_4e346bfec1"
     t.index ["user_id"], name: "fk_rails_f85f1811f0"
   end

@@ -5,4 +5,5 @@ class Part < ApplicationRecord
   validates :name, presence: true
   validates :tag, presence: true
   validates :hiringCompany, presence: true
+  validates :description, presence: true
 end

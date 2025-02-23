@@ -29,7 +29,8 @@ class ReportsController < ApplicationController
     report_data = {
       nome_peca: part["name"],
       tag_peca: part["tag"],
-      empresa_contratante: part["empresa_contratante"],
+      descricao_peca: part["description"],
+      empresa_contratante: part["hiringCompany"],
       etapas: steps.map do |step|
         {
           nome: step["name"],

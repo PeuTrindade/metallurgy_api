@@ -66,6 +66,6 @@ class PartsController < ApplicationController
     end
 
     def part_params
-      params.require(:part).permit(:name, :tag, :hiringCompany, :image, :flow_id)
+      params.require(:part).permit(:name, :tag, :hiringCompany, :image, :flow_id, :description)
     end
 end
