@@ -26,17 +26,6 @@ class ReportsController < ApplicationController
     part = part_response.success? ? part_response.parsed_response : nil
     steps = steps_response.success? ? steps_response.parsed_response["steps"] : []
 
-    puts "🔍 Part Data: #{part.inspect}"
-    puts "🔍 Steps Data: #{steps.inspect}"
-
-    # if part.nil? || part.empty?
-    #   return render json: { error: "Peça não encontrada." }, status: :not_found
-    # end
-
-    # if steps.nil? || steps.empty?
-    #   return render json: { error: "Etapas não encontradas." }, status: :not_found
-    # end
-
     report_data = {
       nome_peca: part["name"],
       tag_peca: part["tag"],
@@ -52,9 +41,10 @@ class ReportsController < ApplicationController
     }
 
     open_ai_service = OpenAIService.new(ENV['OPENAI_API_KEY'])
-    report = open_ai_service.generate_report(report_data)
+    report_intro = open_ai_service.generate_intro(report_data)
+    report_specifications = open_ai_service.generate_specifications(report_data)
 
-    render json: { report: report }
+    render json: { intro: report_intro, specifications: report_specifications }
   rescue StandardError => e
     render json: { error: "Erro interno: #{e.message}" }, status: :internal_server_error
   end
