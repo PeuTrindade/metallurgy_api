@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
   post '/register', to: 'auth#register'
   post '/login', to: 'auth#login'
+  post '/me', to: 'auth#validate_token'
 
   # Rotas protegidas
   

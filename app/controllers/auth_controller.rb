@@ -1,5 +1,5 @@
 class AuthController < ApplicationController
-  skip_before_action :authorize_request, only: [:register, :login]
+  skip_before_action :authorize_request, only: [:register, :login, :validate_token]
   
   require 'jwt'
 
@@ -16,6 +16,27 @@ class AuthController < ApplicationController
     end
   end
 
+  def validate_token
+    token = params[:token]
+    return render json: { error: 'Token was not sent!' }, status: :unauthorized if token.blank?
+  
+    begin
+      decoded_token = JWT.decode(token, SECRET_KEY, true, algorithm: 'HS256')
+      payload = decoded_token.first
+      user = User.find_by(id: payload['user_id'])
+  
+      if user
+        render json: { user: user.as_json(except: [:password_digest]) }, status: :ok
+      else
+        render json: { error: 'User not found!' }, status: :unauthorized
+      end
+    rescue JWT::ExpiredSignature
+      render json: { error: 'Token has expired!' }, status: :unauthorized
+    rescue JWT::DecodeError
+      render json: { error: 'Invalid token!' }, status: :unauthorized
+    end
+  end
+
   def login
     user = User.find_by(email: params[:email])
 
@@ -29,7 +50,7 @@ class AuthController < ApplicationController
   end
 
   def user_params
-    params.permit(:email, :fullName, :cnpj, :password)
+    params.permit(:email, :fullName, :cnpj, :password, :token)
   end
 
   def encode_token(user_id)
