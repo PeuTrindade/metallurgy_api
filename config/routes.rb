@@ -17,6 +17,14 @@ Rails.application.routes.draw do
   get '/step/:id', to: 'steps#show'
   get '/steps/part/:part_id', to: 'steps#by_part'
 
+  # Etapa modelo
+  post '/steps_flow', to: 'steps_flow#create'
+  put '/steps_flow/:id', to: 'steps_flow#update'
+  delete '/steps_flow/:id', to: 'steps_flow#destroy'
+  get '/steps_flow', to: 'steps_flow#index'
+  get '/steps_flow/flow/:flow_id', to: 'steps_flow#by_flow'
+  get '/steps_flow/:id', to: 'steps_flow#show'
+
   # Peça
   post '/part', to: 'parts#create'
   get '/parts', to: 'parts#index'

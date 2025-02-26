@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_23_134704) do
+ActiveRecord::Schema[7.1].define(version: 2025_02_26_201420) do
   create_table "flows", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -50,6 +50,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_23_134704) do
     t.index ["user_id"], name: "index_steps_on_user_id"
   end
 
+  create_table "steps_flows", charset: "utf8mb3", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.bigint "flow_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_steps_flows_on_flow_id"
+    t.index ["user_id"], name: "index_steps_flows_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "fullName", null: false
     t.bigint "cnpj", null: false
@@ -70,4 +81,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_23_134704) do
   add_foreign_key "steps", "flows"
   add_foreign_key "steps", "parts"
   add_foreign_key "steps", "users"
+  add_foreign_key "steps_flows", "flows"
+  add_foreign_key "steps_flows", "users"
 end
