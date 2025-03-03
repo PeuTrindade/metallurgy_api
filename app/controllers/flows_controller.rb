@@ -8,10 +8,10 @@ class FlowsController < ApplicationController
   end
 
   def show
-    flow = current_user.flows.find_by(id: params[:id])
+    flow = current_user.flows.includes(:steps_flows).find_by(id: params[:id])
 
     if flow
-      render json: flow, status: :ok
+      render json: { flows: flow.as_json(include: :steps_flows) }, status: :ok
     else
       render json: { error: "Flow not found or does not belong to the user" }, status: :not_found
     end
