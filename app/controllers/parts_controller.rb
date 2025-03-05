@@ -8,10 +8,10 @@ class PartsController < ApplicationController
   end
 
   def show
-    part = current_user.parts.find_by(id: params[:id])
+    part = current_user.parts.includes(:steps).find_by(id: params[:id])
 
     if part
-      render json: part, status: :ok
+      render json: {part: part.as_json(include: :steps)}, status: :ok
     else
       render json: { error: "Part not found or does not belong to the user" }, status: :not_found
     end
@@ -19,13 +19,37 @@ class PartsController < ApplicationController
 
   def create
     @part = current_user.parts.new(part_params)
-
-    if @part.save
-      render json: { message: "Part registered successfully!", part: @part }, status: :ok
-    else
-      render json: { message: "An error occurred while registering part! Please try again.", errors: @part.errors }, status: :unprocessable_entity
+  
+    unless @part.save
+      return render json: { message: "An error occurred while registering part! Please try again.", errors: @part.errors }, status: :unprocessable_entity
     end
+  
+    begin
+      ActiveRecord::Base.transaction do
+        flow_id = @part.flow_id
+        steps_flows = StepsFlow.where(flow_id: flow_id)
+  
+        steps_flows.each do |step_flow|
+          step = Step.new(
+            part_id: @part.id,
+            name: step_flow.name,
+            flow_id: flow_id,
+            user_id: current_user.id
+          )
+  
+          unless step.save
+            raise ActiveRecord::Rollback, "Error creating steps"
+          end
+        end
+      end
+    rescue StandardError => e
+      return render json: { message: "An error occurred while creating steps!", errors: e.message }, status: :unprocessable_entity
+    end
+  
+    render json: { message: "Part registered successfully with steps!", part: @part }, status: :ok
   end
+  
+  
 
   def by_flow
     parts = Part.where(flow_id: params[:flow_id])
