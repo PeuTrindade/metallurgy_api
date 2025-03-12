@@ -23,7 +23,7 @@ class ReportsController < ApplicationController
 
     threads.each(&:join)
 
-    part = part_response.success? ? part_response.parsed_response : nil
+    part = part_response.success? ? part_response.parsed_response['part'] : nil
     steps = steps_response.success? ? steps_response.parsed_response["steps"] : []
 
     report_data = {

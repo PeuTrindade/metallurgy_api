@@ -53,7 +53,7 @@ class OpenAIService
   def generate_specifications(report_data)
     prompt = """
       Estou criando um relatório técnico profissional para empresas no ramo da metalurgia. Já desenvolvi uma introdução de em torno 500 palavras contextualizando sobre o serviço realizado
-      na peça. Porém, agora preciso da descrição mais aprofundada e elaborada do que foi realizado nas etapas do processo com em torno de 2000 palavras. Quero que você aborde com profundidade e explore os detalhes das etapas.
+      na peça. Porém, agora preciso da descrição mais aprofundada e elaborada do que foi realizado nas etapas do processo com no mínimo 4000 palavras. Quero que você aborde com profundidade e explore os detalhes das etapas.
       Use toda a descrição e dados das etapas a seu favor. Lembre-se, construa um texto formal e técnico, utilizando a linguagem formal e seguindo as normas da gramática. Crie parágrafos bem elaborados
       com no mínimo 3 períodos e evite uso de caracteres especiais. Não utilize títulos e subtítulos. Use como base estes dados da peça e das etapas do processo realizado.
 
