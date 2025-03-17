@@ -42,4 +42,10 @@ Rails.application.routes.draw do
 
   # Relatório
   post '/report/:id', to: 'reports#create'
+
+  # Inspeções finais
+  post '/inspection', to: 'inspections#create'
+  put '/inspection/:id', to: 'inspections#update'
+  get '/inspection/:id', to: 'inspections#show'
+  delete '/inspection/:id', to: 'inspections#destroy'
 end

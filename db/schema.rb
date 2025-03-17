@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_02_26_201420) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
   create_table "flows", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -18,6 +18,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_26_201420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "fk_rails_42038c5d78"
+  end
+
+  create_table "inspections", charset: "utf8mb3", force: :cascade do |t|
+    t.string "image"
+    t.string "description", null: false
+    t.bigint "user_id", null: false
+    t.bigint "flow_id", null: false
+    t.bigint "part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_inspections_on_flow_id"
+    t.index ["part_id"], name: "index_inspections_on_part_id"
+    t.index ["user_id"], name: "index_inspections_on_user_id"
   end
 
   create_table "parts", charset: "utf8mb3", force: :cascade do |t|
@@ -76,6 +89,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_02_26_201420) do
   end
 
   add_foreign_key "flows", "users"
+  add_foreign_key "inspections", "flows"
+  add_foreign_key "inspections", "parts"
+  add_foreign_key "inspections", "users"
   add_foreign_key "parts", "flows"
   add_foreign_key "parts", "users"
   add_foreign_key "steps", "flows"

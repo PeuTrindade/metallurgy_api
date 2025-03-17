@@ -8,10 +8,12 @@ class PartsController < ApplicationController
   end
 
   def show
-    part = current_user.parts.includes(:steps).find_by(id: params[:id])
+    part = current_user.parts.includes(:steps, :inspection).find_by(id: params[:id])
 
     if part
-      render json: {part: part.as_json(include: :steps)}, status: :ok
+      render json: {
+        part: part.as_json(include: [:steps, :inspection])
+      }, status: :ok
     else
       render json: { error: "Part not found or does not belong to the user" }, status: :not_found
     end
@@ -26,6 +28,14 @@ class PartsController < ApplicationController
   
     begin
       ActiveRecord::Base.transaction do
+        Inspection.create!(
+          description: "...",
+          image: nil,
+          user_id: current_user.id,
+          flow_id: @part.flow_id,
+          part_id: @part.id
+        )
+
         flow_id = @part.flow_id
         steps_flows = StepsFlow.where(flow_id: flow_id)
   
@@ -48,7 +58,6 @@ class PartsController < ApplicationController
   
     render json: { message: "Part registered successfully with steps!", part: @part }, status: :ok
   end
-  
   
 
   def by_flow

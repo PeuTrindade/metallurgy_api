@@ -3,6 +3,7 @@ class Part < ApplicationRecord
   belongs_to :flow
 
   has_many :steps
+  has_one :inspection
 
   validates :name, presence: true
   validates :tag, presence: true
