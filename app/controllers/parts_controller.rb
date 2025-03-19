@@ -8,11 +8,11 @@ class PartsController < ApplicationController
   end
 
   def show
-    part = current_user.parts.includes(:steps, :inspection).find_by(id: params[:id])
+    part = current_user.parts.includes(:steps, :inspection, :comment, :suggestion).find_by(id: params[:id])
 
     if part
       render json: {
-        part: part.as_json(include: [:steps, :inspection])
+        part: part.as_json(include: [:steps, :inspection, :comment, :suggestion])
       }, status: :ok
     else
       render json: { error: "Part not found or does not belong to the user" }, status: :not_found

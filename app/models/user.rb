@@ -4,6 +4,8 @@ class User < ApplicationRecord
   has_many :flows
   has_many :steps_flows
   has_many :inspections
+  has_many :comments
+  has_many :suggestions
   
   has_secure_password
   

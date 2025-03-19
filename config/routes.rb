@@ -48,4 +48,16 @@ Rails.application.routes.draw do
   put '/inspection/:id', to: 'inspections#update'
   get '/inspection/:id', to: 'inspections#show'
   delete '/inspection/:id', to: 'inspections#destroy'
+
+  # Comentários e notas
+  post '/comment', to: 'comments#create'
+  put '/comment/:id', to: 'comments#update'
+  get '/comment/:id', to: 'comments#show'
+  delete '/comment/:id', to: 'comments#destroy'
+
+  # Sugestões e observações
+  post '/suggestion', to: 'suggestions#create'
+  put '/suggestion/:id', to: 'suggestions#update'
+  get '/suggestion/:id', to: 'suggestions#show'
+  delete '/suggestion/:id', to: 'suggestions#destroy'
 end

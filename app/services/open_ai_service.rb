@@ -86,6 +86,27 @@ class OpenAIService
     response.parsed_response
   end
 
+  def generate_inspection(report_data)
+    prompt = """
+      Estou criando um relatório técnico profissional para empresas no ramo da metalúrgia. Já desenvolvi uma introdução de em torno 500 palavras contextualizando o serviço realizado na peça, e descrições elaboradas
+      de cada etapa realizada com em torno 4000 palavras. Agora, quero que você gere uma seção de inspeção final, na qual irá discorrer sobre como se deu a verificação e análise de tudo o que foi feito na peça. Use como
+      base o texto que irei lhe passar, na qual a empresa que realizou o serviço fez. Lembre-se, construa um texto formal e técnico, utilizando a linguagem formal e seguindo as normas da gramática. Crie parágrafos bem elaborados
+      com no mínimo 3 períodos e evite uso de caracteres especiais. Não utilize títulos e subtítulos. Use como base o texto passado para ter embasamento do que abordar.
+
+      Inspeção final: #{report_data[:inspecao_final]}
+    """
+
+    body = {
+      model: "gpt-3.5-turbo",
+      messages: [
+        { role: "user", content: prompt }
+      ]
+    }.to_json
+
+    response = self.class.post("/chat/completions", @options.merge(body: body))
+    response.parsed_response
+  end
+
   # def generate_report(report_data)
   #   prompt = """
   #     Por favor, gere um relatório técnico altamente detalhado sobre a peça fornecida, que pertence à empresa contratante. Este relatório deve ser elaborado com rigor técnico, apropriado para engenheiros, técnicos e especialistas na área, e com um nível de profundidade adequado para um documento de aproximadamente 15 mil palavras. O relatório deve conter as seguintes seções, cada uma bem detalhada e com uma linguagem técnica, precisa e clara:

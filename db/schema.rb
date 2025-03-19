@@ -10,7 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
+ActiveRecord::Schema[7.1].define(version: 2025_03_19_201215) do
+  create_table "comments", charset: "utf8mb3", force: :cascade do |t|
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.bigint "flow_id", null: false
+    t.bigint "part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_comments_on_flow_id"
+    t.index ["part_id"], name: "index_comments_on_part_id"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
   create_table "flows", charset: "utf8mb3", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -22,7 +34,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
 
   create_table "inspections", charset: "utf8mb3", force: :cascade do |t|
     t.string "image"
-    t.string "description", null: false
+    t.text "description", null: false
     t.bigint "user_id", null: false
     t.bigint "flow_id", null: false
     t.bigint "part_id", null: false
@@ -74,6 +86,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
     t.index ["user_id"], name: "index_steps_flows_on_user_id"
   end
 
+  create_table "suggestions", charset: "utf8mb3", force: :cascade do |t|
+    t.text "description"
+    t.bigint "user_id", null: false
+    t.bigint "flow_id", null: false
+    t.bigint "part_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["flow_id"], name: "index_suggestions_on_flow_id"
+    t.index ["part_id"], name: "index_suggestions_on_part_id"
+    t.index ["user_id"], name: "index_suggestions_on_user_id"
+  end
+
   create_table "users", charset: "utf8mb3", force: :cascade do |t|
     t.string "fullName", null: false
     t.bigint "cnpj", null: false
@@ -88,6 +112,9 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
     t.string "password_digest"
   end
 
+  add_foreign_key "comments", "flows"
+  add_foreign_key "comments", "parts"
+  add_foreign_key "comments", "users"
   add_foreign_key "flows", "users"
   add_foreign_key "inspections", "flows"
   add_foreign_key "inspections", "parts"
@@ -99,4 +126,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_03_17_205559) do
   add_foreign_key "steps", "users"
   add_foreign_key "steps_flows", "flows"
   add_foreign_key "steps_flows", "users"
+  add_foreign_key "suggestions", "flows"
+  add_foreign_key "suggestions", "parts"
+  add_foreign_key "suggestions", "users"
 end
