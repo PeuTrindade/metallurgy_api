@@ -6,6 +6,8 @@ class Part < ApplicationRecord
   has_one :inspection
   has_one :comment
   has_one :suggestion
+  has_many_attached :images
+
 
   validates :name, presence: true
   validates :tag, presence: true

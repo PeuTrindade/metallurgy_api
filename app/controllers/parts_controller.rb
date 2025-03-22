@@ -12,7 +12,11 @@ class PartsController < ApplicationController
 
     if part
       render json: {
-        part: part.as_json(include: [:steps, :inspection, :comment, :suggestion])
+        part: part.as_json(include: [:steps, :inspection, :comment, :suggestion, :images]).merge(
+          images: part.images.map do |image|
+            url_for(image)
+          end
+        )
       }, status: :ok
     else
       render json: { error: "Part not found or does not belong to the user" }, status: :not_found
@@ -20,7 +24,14 @@ class PartsController < ApplicationController
   end
 
   def create
-    @part = current_user.parts.new(part_params)
+    @part = current_user.parts.new(part_params.except(:images))
+    images = Array(params[:part][:images])
+
+    if images
+      images.each do |image|
+        @part.images.attach(image)
+      end
+    end
   
     unless @part.save
       return render json: { message: "An error occurred while registering part! Please try again.", errors: @part.errors }, status: :unprocessable_entity
@@ -31,6 +42,20 @@ class PartsController < ApplicationController
         Inspection.create!(
           description: "...",
           image: nil,
+          user_id: current_user.id,
+          flow_id: @part.flow_id,
+          part_id: @part.id
+        )
+
+        Comment.create!(
+          description: "",
+          user_id: current_user.id,
+          flow_id: @part.flow_id,
+          part_id: @part.id
+        )
+
+        Suggestion.create!(
+          description: "",
           user_id: current_user.id,
           flow_id: @part.flow_id,
           part_id: @part.id
@@ -99,6 +124,6 @@ class PartsController < ApplicationController
     end
 
     def part_params
-      params.require(:part).permit(:name, :tag, :hiringCompany, :image, :flow_id, :description)
+      params.require(:part).permit(:name, :tag, :hiringCompany, :images, :flow_id, :description)
     end
 end
